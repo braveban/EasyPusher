@@ -96,8 +96,6 @@ EasyPusher回调事件定义：
 
 - 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
 
-- Tel：13718530929
-
 - QQ交流群：465901074
 
 > EasyPusher是一款非常稳定的RTSP推流直播组件，各平台版本需要经过授权才能商业使用，商业授权方案可以通过以上渠道进行更深入的技术与合作咨询；
