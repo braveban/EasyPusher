@@ -973,12 +973,17 @@ void CDlgPanel::ProcessVideoWndMenuMsg(int nId)
 		break;
 	case 3002://x264+AAC
 		{
-			m_pManager->SetUseFFEncoder(FALSE);
+			m_pManager->SetUseFFEncoder(FALSE,0);
+		}
+		break;
+	case 3004://x265+AAC
+		{
+			m_pManager->SetUseFFEncoder(FALSE,1);
 		}
 		break;
 	case 3003://FFEncoder
 		{
-			m_pManager->SetUseFFEncoder(TRUE);
+			m_pManager->SetUseFFEncoder(TRUE,0);
 		}
 		break;
 

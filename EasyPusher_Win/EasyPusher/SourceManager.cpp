@@ -36,7 +36,8 @@ CSourceManager::CSourceManager(void)
 	m_bUseGpac = TRUE;
 	m_bWriteMp4 = FALSE;
 	m_bPushRtmp = FALSE;
-
+	m_nEncoderType = 0; //默认H264编码
+	 
 	m_pEncConfigInfo = NULL;
 	m_pFrameBuf = NULL;
 	m_pEasyrtmp = NULL;
@@ -414,8 +415,16 @@ void CSourceManager::DSRealDataManager(int nDevId, unsigned char *pBuffer, int n
 				}
 				else//x264编码
 				{
-					byte*pdata = m_H264EncoderManager.Encoder(0, pDataBuffer,
-						nWidhtHeightBuf, datasize, keyframe);
+					byte*	 pdata = NULL;
+					if (m_nEncoderType == 1)
+					{
+						pdata = m_H265Encoder.Encoder(pDataBuffer, nWidhtHeightBuf, datasize, keyframe);
+					}
+					else
+					{
+						pdata = m_H264EncoderManager.Encoder(0, pDataBuffer,
+							nWidhtHeightBuf, datasize, keyframe);
+					}
 					if (datasize>0)
 					{
 						memset(m_EncoderBuffer, 0, 2073600);//1920*1080
@@ -423,17 +432,34 @@ void CSourceManager::DSRealDataManager(int nDevId, unsigned char *pBuffer, int n
 						byte btHeader[4];
 						btHeader[0] = 0x00;
 						btHeader[1] = 0x00;
-							btHeader[2] = 0x00;
+						btHeader[2] = 0x00;
 						btHeader[3] = 0x01;
 						if (bKeyF)
 						{
-							frameinfo.length = datasize + 8 + m_spslen+m_ppslen;
-							memcpy(m_EncoderBuffer, btHeader, 4);
-							memcpy(m_EncoderBuffer+4, m_sps, m_spslen);
-							memcpy(m_EncoderBuffer+4+m_spslen, btHeader, 4);
-							memcpy(m_EncoderBuffer+4+m_spslen+4, m_pps, m_ppslen);
-							memcpy(m_EncoderBuffer+4+m_spslen+4+m_ppslen, btHeader, 4);
-							memcpy(m_EncoderBuffer+4+m_spslen+4+m_ppslen+4, pdata+4, datasize-4);
+
+							int nOffSet = 0;
+							if (m_nEncoderType == 0)//h264
+							{
+// 								memcpy(m_EncoderBuffer+nOffSet, btHeader, 4);
+// 								nOffSet += 4;
+// 								memcpy(m_EncoderBuffer + nOffSet, m_vps, m_vpslen);
+// 								nOffSet += m_vpslen;
+								memcpy(m_EncoderBuffer + nOffSet, btHeader, 4);
+								nOffSet += 4;
+								memcpy(m_EncoderBuffer + nOffSet, m_sps, m_spslen);
+								nOffSet += m_spslen;
+								memcpy(m_EncoderBuffer + nOffSet, btHeader, 4);
+								nOffSet += 4;
+								memcpy(m_EncoderBuffer + nOffSet, m_pps, m_ppslen);
+								nOffSet += m_ppslen;
+							}
+
+							memcpy(m_EncoderBuffer + nOffSet, btHeader, 4);
+							nOffSet += 4;					
+							memcpy(m_EncoderBuffer + nOffSet, pdata+4, datasize-4);
+							nOffSet += datasize - 4;
+							frameinfo.length = nOffSet;
+
 						} 
 						else
 						{
@@ -681,7 +707,7 @@ int CSourceManager::StartDSCapture(int nCamId, int nAudioId,HWND hShowWnd,int nV
 
 		//初始化Pusher结构信息
 		memset(&m_mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
-		m_mediainfo.u32VideoCodec =  EASY_SDK_VIDEO_CODEC_H264;//0x1C;
+		m_mediainfo.u32VideoCodec =  EASY_SDK_VIDEO_CODEC_H264;//EASY_SDK_VIDEO_CODEC_H264;//0x1C;
 		m_mediainfo.u32VideoFps = nFps;
 		m_mediainfo.u32AudioCodec = EASY_SDK_AUDIO_CODEC_AAC;
 		m_mediainfo.u32AudioChannel = nChannel;
@@ -723,38 +749,78 @@ int CSourceManager::StartDSCapture(int nCamId, int nAudioId,HWND hShowWnd,int nV
 			//初始化AAC编码器
 			AAC_Init(&m_hFfeAudioHandle, nSampleRate/*44100*/, nChannel);
 			//FFEncoder -- Init end
+			m_mediainfo.u32VideoCodec =  EASY_SDK_VIDEO_CODEC_H264;//EASY_SDK_VIDEO_CODEC_H264;//0x1C;
+
 		} 
 		else
 		{
-			//x264+faac Encoder --- Init Start
+			m_AACEncoderManager.Init(nSampleRate, nChannel);
 			if(!m_pEncConfigInfo)
 				m_pEncConfigInfo = new Encoder_Config_Info;
 
-			m_AACEncoderManager.Init(nSampleRate, nChannel);
 			m_pEncConfigInfo->nScrVideoWidth = nVideoWidth;
 			m_pEncConfigInfo->nScrVideoHeight = nVideoHeight;
 			m_pEncConfigInfo->nFps = nFps;
 			m_pEncConfigInfo->nMainKeyFrame = 30;
 			m_pEncConfigInfo->nMainBitRate = nBitRate;
 			m_pEncConfigInfo->nMainEncLevel = 1;
-			m_pEncConfigInfo->nMainEncQuality = 20;
+			m_pEncConfigInfo->nMainEncQuality = 28;
 			m_pEncConfigInfo->nMainUseQuality = 0;
+			if (m_nEncoderType == 1)//h265
+			{
+				m_H265Encoder.Init(m_pEncConfigInfo->nScrVideoWidth,
+					m_pEncConfigInfo->nScrVideoHeight, m_pEncConfigInfo->nFps, m_pEncConfigInfo->nMainKeyFrame,
+					m_pEncConfigInfo->nMainBitRate, m_pEncConfigInfo->nMainEncLevel,
+					m_pEncConfigInfo->nMainEncQuality, m_pEncConfigInfo->nMainUseQuality);
+				m_H265Encoder.GetVPSSPSAndPPS(m_vps, m_vpslen, m_sps, m_spslen, m_pps, m_ppslen);
+				if (m_vps && m_vpslen>0)
+				{
+					memcpy(m_mediainfo.u8Vps, m_vps, m_vpslen);
+					m_mediainfo.u32VpsLength = m_vpslen;
+				}
+				if (m_sps && m_spslen>0)
+				{
+					memcpy(m_mediainfo.u8Sps, m_sps, m_spslen);
+					m_mediainfo.u32SpsLength = m_spslen;
+				}
+				if (m_pps && m_ppslen>0)
+				{
+					memcpy(m_mediainfo.u8Pps, m_pps, m_ppslen);
+					m_mediainfo.u32PpsLength = m_ppslen;
+				}
+				m_mediainfo.u32VideoCodec =  EASY_SDK_VIDEO_CODEC_H265;//EASY_SDK_VIDEO_CODEC_H264;//0x1C;
+			}
+			else //h264
+			{
+				//x264+faac Encoder --- Init Start
 
-			m_H264EncoderManager.Init(0,m_pEncConfigInfo->nScrVideoWidth,
-				m_pEncConfigInfo->nScrVideoHeight,m_pEncConfigInfo->nFps,m_pEncConfigInfo->nMainKeyFrame,
-				m_pEncConfigInfo->nMainBitRate,m_pEncConfigInfo->nMainEncLevel,
-				m_pEncConfigInfo->nMainEncQuality,m_pEncConfigInfo->nMainUseQuality);
+				m_H264EncoderManager.Init(0,m_pEncConfigInfo->nScrVideoWidth,
+					m_pEncConfigInfo->nScrVideoHeight,m_pEncConfigInfo->nFps,m_pEncConfigInfo->nMainKeyFrame,
+					m_pEncConfigInfo->nMainBitRate,m_pEncConfigInfo->nMainEncLevel,
+					m_pEncConfigInfo->nMainEncQuality,m_pEncConfigInfo->nMainUseQuality);
 
-			byte  sps[100];
-			byte  pps[100];
-			long spslen=0;
-			long ppslen=0;
-			m_H264EncoderManager.GetSPSAndPPS(0,sps,spslen,pps,ppslen);
-			memcpy(m_sps, sps,100) ;
-			memcpy(m_pps, pps,100) ;
-			m_spslen = spslen;
-			m_ppslen = ppslen;
-			//x264+faac Encoder --- Init End
+				byte  sps[100];
+				byte  pps[100];
+				long spslen=0;
+				long ppslen=0;
+				m_H264EncoderManager.GetSPSAndPPS(0,sps,spslen,pps,ppslen);
+				memcpy(m_sps, sps,100) ;
+				memcpy(m_pps, pps,100) ;
+				m_spslen = spslen;
+				m_ppslen = ppslen;
+				//x264+faac Encoder --- Init End
+// 				if (m_sps && m_spslen>0)
+// 				{
+// 					memcpy(m_mediainfo.u8Sps, m_sps, m_spslen);
+// 					m_mediainfo.u32SpsLength = m_spslen;
+// 				}
+// 				if (m_pps && m_ppslen>0)
+// 				{
+// 					memcpy(m_mediainfo.u8Pps, m_pps, m_ppslen);
+// 					m_mediainfo.u32PpsLength = m_ppslen;
+// 				}
+				m_mediainfo.u32VideoCodec =  EASY_SDK_VIDEO_CODEC_H264;//EASY_SDK_VIDEO_CODEC_H264;//0x1C;
+			}
 		}
 
 		//视频可用
@@ -991,6 +1057,7 @@ void CSourceManager::StopCapture()
 	}
 	m_H264EncoderManager.Clean();
 	m_AACEncoderManager.Clean();
+	m_H265Encoder.Clean();
 
 	m_nFrameNum = 0;
 	if (m_EncoderBuffer)

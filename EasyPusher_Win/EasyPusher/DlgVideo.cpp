@@ -109,6 +109,7 @@ void CDlgVideo::OnRButtonUp(UINT nFlags, CPoint point)
 		SubMenuEnc.CreateMenu();
 		SubMenuEnc.AppendMenu(3002,TEXT("x264+AAC"),NULL,0,MF_POPUP);
 		SubMenuEnc.AppendMenu(3003,TEXT("FFEncoder"),NULL,0,MF_POPUP);
+		SubMenuEnc.AppendMenu(3004,TEXT("x265+AAC"),NULL,0,MF_POPUP);
 		SubMenuEnc.SetMenuBarImage(TEXT("SkinUI\\Menu\\menu_left_bg.png"),&CRect(2,2,2,2));
 		SubMenuEnc.SetMenuBackImage(TEXT("SkinUI\\Menu\\menu_right_bg.png"),&CRect(2,2,2,2));
 		SubMenuEnc.SetMenuHovenImage(TEXT("SkinUI\\Menu\\menu_selected.png"),&CRect(2,2,2,2));
@@ -120,7 +121,12 @@ void CDlgVideo::OnRButtonUp(UINT nFlags, CPoint point)
 		} 
 		else
 		{
-			SubMenuEnc.CheckMenuItem(3002,MF_POPUP|MF_CHECKED);
+			if (m_pMainDlg->m_pManager->IsUseH265Encoder())
+			{
+				SubMenuEnc.CheckMenuItem(3004,MF_POPUP|MF_CHECKED);
+			}
+			else
+				SubMenuEnc.CheckMenuItem(3002,MF_POPUP|MF_CHECKED);
 		}
 
 		//½¨Á¢²Ëµ¥

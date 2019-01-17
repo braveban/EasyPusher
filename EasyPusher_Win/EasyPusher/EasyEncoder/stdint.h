@@ -16,9 +16,11 @@
  *  Date: 2000-12-02
  */
 
+#ifndef _MSC_STDINT_H_ // [
+#define _MSC_STDINT_H_
+// #ifndef _STDINT_H
+// #define _STDINT_H
 
-#ifndef _STDINT_H
-#define _STDINT_H
 #define __need_wint_t
 #define __need_wchar_t
 #include <stddef.h>

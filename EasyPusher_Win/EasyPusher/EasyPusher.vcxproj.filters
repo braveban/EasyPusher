@@ -369,6 +369,15 @@
     <ClInclude Include="vdev.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EasyEncoder\H265Encoder.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\x265.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
+    <ClInclude Include="EasyEncoder\x265_config.h">
+      <Filter>EasyEncoder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -619,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="vdev.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EasyEncoder\H265Encoder.cpp">
+      <Filter>EasyEncoder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -132,6 +132,9 @@
     <ClInclude Include="DShowCapture\DshowDef.h" />
     <ClInclude Include="DShowCapture\SampleGrabberCB.h" />
     <ClInclude Include="EasyDefine.h" />
+    <ClInclude Include="EasyEncoder\H265Encoder.h" />
+    <ClInclude Include="EasyEncoder\x265.h" />
+    <ClInclude Include="EasyEncoder\x265_config.h" />
     <ClInclude Include="EasyPusher.h" />
     <ClInclude Include="EasyPusherDlg.h" />
     <ClInclude Include="EasyEncoder\EasyRtmp.h" />
@@ -237,6 +240,7 @@
     <ClCompile Include="DShowCapture\CaptureVideo.cpp" />
     <ClCompile Include="DShowCapture\DShowCaptureAudioAndVideo_Interface.cpp" />
     <ClCompile Include="DShowCapture\SampleGrabberCB.cpp" />
+    <ClCompile Include="EasyEncoder\H265Encoder.cpp" />
     <ClCompile Include="EasyPusher.cpp" />
     <ClCompile Include="EasyPusherDlg.cpp" />
     <ClCompile Include="EasyEncoder\EasyRtmp.cpp" />

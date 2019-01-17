@@ -34,6 +34,7 @@
 #include "./EasyEncoder/H264Encoder.h"
 #include "./EasyEncoder/H264EncoderManager.h"
 #include "./EasyEncoder/EasyRtmp.h"
+#include "./EasyEncoder/H265Encoder.h"
 
 // 字幕和图片叠加 [3/18/2018 SwordTwelve]
 #include "EasyDefine.h"
@@ -248,6 +249,9 @@ public:
 	{
 		return m_bUseFFEncoder;
 	}
+	BOOL IsUseH265Encoder(){
+		return m_nEncoderType;
+	}
 	BOOL IsPushRtmp()
 	{
 		return m_bPushRtmp;
@@ -261,9 +265,10 @@ public:
 	{
 		 m_bWriteMp4 = bUse;
 	}
-	void SetUseFFEncoder(BOOL bUse)
+	void SetUseFFEncoder(BOOL bUse,int type)
 	{
 		 m_bUseFFEncoder = bUse;
+		 m_nEncoderType = type;
 	}
 	void SetPushRtmp(BOOL bUse)
 	{
@@ -291,6 +296,7 @@ private:
 	BOOL m_bWriteMp4;
 	BOOL m_bUseFFEncoder;
 	BOOL m_bPushRtmp;
+	int m_nEncoderType;// 0=h264 1=h265
 
 	//视频设备控制实例
 	LPVideoCapturer m_pVideoManager;
@@ -333,9 +339,14 @@ private:
 	byte  m_pps[100];
 	long m_spslen;
 	long m_ppslen;
+	byte m_vps[100];
+	long m_vpslen;
+
 	byte* m_pFrameBuf; 
 	// x264+faac Encoder---End
 	EasyRtmp* m_pEasyrtmp;
+	//x265编码器
+	CH265Encoder m_H265Encoder;
 
 	// 字幕图片叠加特技制作管理实列 [3/18/2018 SwordTwelve]
 	LPVideoVFXMaker m_pVFXMaker;

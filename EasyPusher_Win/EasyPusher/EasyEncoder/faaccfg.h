@@ -25,8 +25,8 @@
 #define FAAC_CFG_VERSION 104
 
 /* MPEG ID's */
-#define MPEG2 1
-#define MPEG4 0
+#define FAAC_MPEG2 1
+#define FAAC_MPEG4 0
 
 /* AAC object types */
 #define MAIN 1
