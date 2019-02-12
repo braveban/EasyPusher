@@ -8,13 +8,13 @@
 #include <string.h>
 #include "EasyPusherAPI.h"
 /*
-*±¾KeyÎª3¸öÔÂÁÙÊ±ÊÚÈ¨License£¬ÈçÐèÉÌÒµÊ¹ÓÃ£¬ÇëÓÊ¼þÖÁsupport@easydarwin.org×ÉÑ¯ÉÌÒµÊÚÈ¨·½°¸¡£
+*ï¿½ï¿½KeyÎª3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½È¨Licenseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒµÊ¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½support@easydarwin.orgï¿½ï¿½Ñ¯ï¿½ï¿½Òµï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 #ifdef _WIN32
-#define KEY "6A36334A743469576B5A7341554D316170544B76532B314659584E355548567A6147567958314E455379356C6547556A567778576F50394C34456468646D6C754A6B4A68596D397A595541794D4445325257467A65555268636E6470626C526C5957316C59584E35"
+#define KEY "6A36334A743469576B5A754144474A636F35337A4A65314659584E355548567A6147567958314E455379356C6547556A567778576F502B6C3430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
 #include "getopt.h"
 #else //linux
-#define KEY "6A36334A74354F576B5971412F73746170545141792F466C59584E356348567A6147567958334E6B61796C58444661672F307667523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D"
+#define KEY "6A36334A74354F576B596F41753242636F3539457066466C59584E356348567A6147567958334E6B61373558444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
 #include "unistd.h"
 #include <signal.h>
 #endif
@@ -35,20 +35,20 @@ char *ProgName;		//Program Name
 HI_U32 u32Handle = 0;
 Easy_Pusher_Handle fPusherHandle = 0;
 
-HI_S32 OnEventCallback(HI_U32 u32Handle,			/* ¾ä±ú */
-                                HI_U32 u32Event,	/* ÊÂ¼þ */
-                                HI_VOID* pUserData  /* ÓÃ»§Êý¾Ý*/
+HI_S32 OnEventCallback(HI_U32 u32Handle,			/* ï¿½ï¿½ï¿½ */
+                                HI_U32 u32Event,	/* ï¿½Â¼ï¿½ */
+                                HI_VOID* pUserData  /* ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½*/
                                 )
 {
 	return HI_SUCCESS;
 }
 
 
-HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle,/* ¾ä±ú */
-                                HI_U32 u32DataType,		/* Êý¾ÝÀàÐÍ£¬ÊÓÆµ»òÒôÆµÊý¾Ý»òÒôÊÓÆµ¸´ºÏÊý¾Ý */
-                                HI_U8* pu8Buffer,		/* Êý¾Ý°üº¬Ö¡Í· */
-                                HI_U32 u32Length,		/* Êý¾Ý³¤¶È */
-                                HI_VOID* pUserData		/* ÓÃ»§Êý¾Ý*/
+HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle,/* ï¿½ï¿½ï¿½ */
+                                HI_U32 u32DataType,		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+                                HI_U8* pu8Buffer,		/* ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½Ö¡Í· */
+                                HI_U32 u32Length,		/* ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ */
+                                HI_VOID* pUserData		/* ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½*/
                                 )
 {
     HI_S_AVFrame* pstruAV = HI_NULL;
@@ -88,7 +88,7 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle,/* ¾ä±ú */
 
 				EASY_AV_Frame  avFrame;
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
-				avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen-4;//È¥µô³§¼Ò×Ô¶¨ÒåµÄ4×Ö½ÚÍ·
+				avFrame.u32AVFrameLen = pstruAV->u32AVFrameLen-4;//È¥ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½4ï¿½Ö½ï¿½Í·
 				avFrame.pBuffer = (unsigned char*)pbuf+4;
 				avFrame.u32AVFrameFlag = EASY_SDK_AUDIO_FRAME_FLAG;
 				avFrame.u32TimestampSec = pstruAV->u32AVFramePTS/1000;
@@ -106,17 +106,17 @@ HI_S32 NETSDK_APICALL OnStreamCallback(HI_U32 u32Handle,/* ¾ä±ú */
 	return HI_SUCCESS;
 }
 
-HI_S32 OnDataCallback(HI_U32 u32Handle,					/* ¾ä±ú */
-                                HI_U32 u32DataType,		/* Êý¾ÝÀàÐÍ*/
-                                HI_U8*  pu8Buffer,      /* Êý¾Ý */
-                                HI_U32 u32Length,		/* Êý¾Ý³¤¶È */
-                                HI_VOID* pUserData		/* ÓÃ»§Êý¾Ý*/
+HI_S32 OnDataCallback(HI_U32 u32Handle,					/* ï¿½ï¿½ï¿½ */
+                                HI_U32 u32DataType,		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+                                HI_U8*  pu8Buffer,      /* ï¿½ï¿½ï¿½ï¿½ */
+                                HI_U32 u32Length,		/* ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½ */
+                                HI_VOID* pUserData		/* ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½*/
                                 )
 {
 	return HI_SUCCESS;
 }
 
-/* EasyPusherÊý¾Ý»Øµ÷ */
+/* EasyPusherï¿½ï¿½ï¿½Ý»Øµï¿½ */
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
 {
     if (_state == EASY_PUSH_STATE_CONNECTING)               printf("Connecting...\n");
@@ -226,7 +226,7 @@ int main(int argc, char * argv[])
     if (s32Ret != HI_SUCCESS)
     {
         HI_NET_DEV_DeInit();
-		printf("È·ÈÏÒ»ÏÂÄúÓÐÃ»ÓÐÕâÖÖÓ²¼þÉè±¸£¬Õâ¸öSDKÖ»ÄÜÁ¬½Ó¹Ì¶¨µÄÉãÏñ»ú£¬ÄúÈç¹ûÓÐ×Ô¼ºµÄÉãÏñ»úÐÍºÅ£¬Çë»»³É×Ô¼ºµÄÉãÏñ»úSDK!\n");
+		printf("È·ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½SDKÖ»ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍºÅ£ï¿½ï¿½ë»»ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDK!\n");
 		getchar();
 		return -1;
     }
@@ -257,7 +257,7 @@ int main(int argc, char * argv[])
 
     fPusherHandle = EasyPusher_Create();
     EasyPusher_SetEventCallback(fPusherHandle, __EasyPusher_Callback, 0, NULL);
-	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, 1, "admin", "admin", &mediainfo, 1024, false);//1M»º³åÇø
+	EasyPusher_StartStream(fPusherHandle, ConfigIP, atoi(ConfigPort), ConfigName, 1, "admin", "admin", &mediainfo, 1024, false);//1Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     printf("Press Enter exit...\n");
     getchar();
 

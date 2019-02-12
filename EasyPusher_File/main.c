@@ -11,15 +11,15 @@
 
 
 /*
-*±¾KeyÎª3¸öÔÂÁÙÊ±ÊÚÈ¨License£¬ÈçÐèÉÌÒµÊ¹ÓÃ£¬ÇëÓÊ¼þÖÁsupport@easydarwin.org×ÉÑ¯ÉÌÒµÊÚÈ¨·½°¸¡£
+*ï¿½ï¿½KeyÎª3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½È¨Licenseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒµÊ¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½support@easydarwin.orgï¿½ï¿½Ñ¯ï¿½ï¿½Òµï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 */
 #ifdef _WIN32
 #include "getopt.h"
-#define KEY "6A36334A743469576B5A754147546862704D652F634F784659584E355548567A6147567958305A4A544555755A58686C567778576F4E6A773430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
+#define KEY "6A36334A743469576B5A754144474A636F35337A4A65784659584E355548567A6147567958305A4A544555755A58686C567778576F502B6C3430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
 #else //linux
 #include "unistd.h"
 #include <signal.h>
-#define KEY "6A36334A74354F576B596F412F4E5262704373447066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
+#define KEY "6A36334A74354F576B596F41753242636F3539457066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
 #endif
 
 char* ConfigIP	=	"cloud.easydarwin.org";			//Default EasyDarwin Address 
@@ -56,11 +56,11 @@ int main(int argc, char * argv[])
    signal(SIGPIPE, SIG_IGN);
 #endif
 
-     WORD sockVersion = MAKEWORD(2,2);//°æ±¾ºÅ
-	WSADATA data;    //ÓÃÀ´±£´æWSAStartupµ÷ÓÃºó·µ»ØµÄwindows SocketsÊý¾Ý
+     WORD sockVersion = MAKEWORD(2,2);//ï¿½æ±¾ï¿½ï¿½
+	WSADATA data;    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WSAStartupï¿½ï¿½ï¿½Ãºó·µ»Øµï¿½windows Socketsï¿½ï¿½ï¿½ï¿½
 	struct sockaddr_in serAddr;
      SOCKET sock_Client;
-    SOCKADDR_IN addr_server;   //·þÎñÆ÷µÄµØÖ·Êý¾Ý½á¹¹
+    SOCKADDR_IN addr_server;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·ï¿½ï¿½ï¿½Ý½á¹¹
 
 #ifdef _WIN32
 	extern char* optarg;
@@ -117,11 +117,11 @@ int main(int argc, char * argv[])
 		return 0;
 	}
 
-	sock_Client=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);//´´½¨¿Í»§¶ËÓÃÓÚÍ¨ÐÅµÄSocket
+	sock_Client=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);//ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½Åµï¿½Socket
     
     addr_server.sin_family=AF_INET;
-    addr_server.sin_port=htons(atoi(ConfigPort));//¶Ë¿ÚºÅÎª4567
-    addr_server.sin_addr.S_un.S_addr=inet_addr(ConfigName);   //127.0.0.1Îª±¾µçÄÔIPµØÖ·
+    addr_server.sin_port=htons(atoi(ConfigPort));//ï¿½Ë¿Úºï¿½Îª4567
+    addr_server.sin_addr.S_un.S_addr=inet_addr(ConfigName);   //127.0.0.1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IPï¿½ï¿½Ö·
 
 	while (1)
 	{

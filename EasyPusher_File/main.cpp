@@ -24,10 +24,10 @@ using namespace std;
 #include <stdio.h>
 
 #ifdef _WIN32
-#define KEY "6A36334A743469576B5A754154645A6270436D794A65784659584E355548567A6147567958305A4A544555755A58686C567778576F502B6C3430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
+#define KEY "6A36334A743469576B5A754144474A636F35337A4A65784659584E355548567A6147567958305A4A544555755A58686C567778576F502B6C3430566863336C4559584A33615735555A57467453584E55614756435A584E30514449774D54686C59584E35"
 #include "getopt.h"
 #else //linux
-#define KEY "6A36334A74354F576B596F412F4E5262704373447066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
+#define KEY "6A36334A74354F576B596F41753242636F3539457066426C59584E356348567A6147567958325A7062475658444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D"
 #include "unistd.h"
 #include <signal.h>
 #endif
@@ -35,7 +35,7 @@ using namespace std;
 char* ConfigIP		= "cloud.easydarwin.org";		//Default EasyDarwin Address
 char* ConfigPort	= "554";				//Default EasyDarwin Port
 
-char* ConfigName=	"test.sdp";	//Default RTSP Push StreamName
+char* ConfigName=	"testkim.sdp";	//Default RTSP Push StreamName
 char* ProgName;								//Program Name
 
 int __EasyPusher_Callback(int _id, EASY_PUSH_STATE_T _state, EASY_AV_Frame *_frame, void *_userptr)
@@ -77,7 +77,7 @@ unsigned int _stdcall  AudioThread(void* lParam);
 // Handler use for thrack demux thread
 HANDLE g_mp4TrackThread[MAX_TRACK_NUM];
 bool  g_bThreadLiving[MAX_TRACK_NUM];
-//»ñÈ¡MP4Í·boxÐÅÏ¢
+//ï¿½ï¿½È¡MP4Í·boxï¿½ï¿½Ï¢
 CMp4_root_box g_root;
 FILE * g_fin = NULL; 
 FILE* g_finA = NULL;
@@ -135,19 +135,19 @@ unsigned long Sync_clock(unsigned long TimeScale, unsigned long duration, int ty
 		timebase = g_clock.AudioBase;	
 	}
 	
-	DiffClock = g_clock.ClockCurr - g_clock.ClockBase;//Ê±ÖÓµÄºÄÊ±¼äTickÊý//Î¢Ãî¼¶±ðºöÂÔ²»¼Æ	
+	DiffClock = g_clock.ClockCurr - g_clock.ClockBase;//Ê±ï¿½ÓµÄºï¿½Ê±ï¿½ï¿½Tickï¿½ï¿½//Î¢ï¿½î¼¶ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½	
 	TimeCalbase = (double)timebase/TimeScale;
 	Timenext = (double)(timebase+duration)/TimeScale;
-	//¿ªÊ¼¼ÆËãµ±Ç°ºÍÐ¡Ò»¸öSampleµÄÊ±¼ä¹À¼Æ¾ö¶¨ÑÓ³Ù//
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ãµ±Ç°ï¿½ï¿½Ð¡Ò»ï¿½ï¿½Sampleï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ï¿½ï¿½Ó³ï¿½//
 	NextTime = (unsigned long)(Timenext*1000000);	
 	CurrentTime = (unsigned long)(TimeCalbase*1000000);
 	*out = CurrentTime;
-	if(DiffClock > NextTime) //ÒÑ¾­Âäºó£¬¿ì½ø
+	if(DiffClock > NextTime) //ï¿½Ñ¾ï¿½ï¿½ï¿½ó£¬¿ï¿½ï¿½
 	{
 		delay =  0;
 	}else
 	{
-		delay = (NextTime- DiffClock);//ÖØÐÂ¼ÆËãÊ±¼ä
+		delay = (NextTime- DiffClock);//ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	}
 	if(type == VEDIO_PUSH)
 	{
@@ -162,8 +162,8 @@ unsigned long Sync_clock(unsigned long TimeScale, unsigned long duration, int ty
 int main(int argc, char * argv[])
 {
 
-	std::string sTestFilm  = "./test.mp4";//[Ñô¹âµçÓ°www.ygdy8.com].¸Û‡å.HD.720p.¹úÓïÖÐ×Ö.mp4";//6004501011.MP4";
-	//std::string sTestFilm  = "D:\\360Downloads\\[Ñô¹âµçÓ°www.ygdy8.com].¸Û‡å.HD.720p.¹úÓïÖÐ×Ö.mp4";//6004501011.MP4";
+	std::string sTestFilm  = "./test.mp4";//[ï¿½ï¿½ï¿½ï¿½Ó°www.ygdy8.com].ï¿½Û‡ï¿½.HD.720p.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.mp4";//6004501011.MP4";
+	//std::string sTestFilm  = "D:\\360Downloads\\[ï¿½ï¿½ï¿½ï¿½Ó°www.ygdy8.com].ï¿½Û‡ï¿½.HD.720p.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.mp4";//6004501011.MP4";
 	//std::string sTestFilm  = "D:\\360Downloads\\MV.mp4";//6004501011.MP4";
 
 	//Open mp4 file, acturally we just support mp4 packaged by MP4Box
@@ -250,7 +250,7 @@ int main(int argc, char * argv[])
 
 	memset(&mediainfo, 0x00, sizeof(EASY_MEDIA_INFO_T));
 
-	//´ÓMP4ÎÄ¼þ»ñÈ¡ÒôÊÓÆµ±àÂëÐÅÏ¢£¬ÌîÈëpusherÃ½ÌåÐÅÏ¢½á¹¹ÖÐ
+	//ï¿½ï¿½MP4ï¿½Ä¼ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pusherÃ½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½á¹¹ï¿½ï¿½
 	CMp4_avcC_box videoInfo;
 	memset(&videoInfo, 0x00, sizeof(CMp4_avcC_box));
 	CMp4_mp4a_box audioInfo;
@@ -266,7 +266,7 @@ int main(int argc, char * argv[])
 
 	InitializeCriticalSection(&m_cs);
 
-	//ÊÓÆµ¹ì´æÔÚ
+	//ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½
 	if (nVideoTrackId>-1)
 	{
 		mediainfo.u32VideoCodec =   EASY_SDK_VIDEO_CODEC_H264;
@@ -286,7 +286,7 @@ int main(int argc, char * argv[])
 		g_bThreadLiving[nVideoTrackId] = true;
 	}
 
-	//ÒôÆµ¹ì´æÔÚ
+	//ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½
 	if (nAudioTrackId>-1)
 	{
 		mediainfo.u32AudioCodec =   EASY_SDK_AUDIO_CODEC_AAC;
@@ -364,7 +364,7 @@ int AvcToH264Frame(unsigned char* pFrame, uint32_t nFrameLen,  bool& bKeyFrame, 
 	}
 	bKeyFrame = false;
 	uint32_t nNalCount = 0;
-	//µÚÒ»¸önalµÄ´óÐ¡s
+	//ï¿½ï¿½Ò»ï¿½ï¿½nalï¿½Ä´ï¿½Ð¡s
 	uint32_t nFirstNalSize = 0;
 	bool bFindPFrame = false;
 	while (nNalCount < nFrameLen)
@@ -426,9 +426,9 @@ unsigned int _stdcall  VideoThread(void* lParam)
 			//copy_sample_data(g_fin, chunk_index, name,nID,root,nSampleId);
 			_fseeki64(g_fin, g_root.co[nTrackId].chunk_offset_from_file_begin[chunk_index], SEEK_SET);
 
-			//»ñÈ¡µ±Ç°chunkÖÐÓÐ¶àÉÙ¸ösample
-			uint32_t sample_num_in_cur_chunk_ = get_sample_num_in_cur_chunk(g_root.sc[nTrackId], chunk_index+1);  //@a mark»ñÈ¡chunkÖÐsampleµÄÊýÄ¿
-			uint32_t sample_index_ =  get_sample_index(g_root.sc[nTrackId], chunk_index+1);//chunkÖÐµÚÒ»¸ösampleµÄÐòºÅ
+			//ï¿½ï¿½È¡ï¿½ï¿½Ç°chunkï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ù¸ï¿½sample
+			uint32_t sample_num_in_cur_chunk_ = get_sample_num_in_cur_chunk(g_root.sc[nTrackId], chunk_index+1);  //@a markï¿½ï¿½È¡chunkï¿½ï¿½sampleï¿½ï¿½ï¿½ï¿½Ä¿
+			uint32_t sample_index_ =  get_sample_index(g_root.sc[nTrackId], chunk_index+1);//chunkï¿½Ðµï¿½Ò»ï¿½ï¿½sampleï¿½ï¿½ï¿½ï¿½ï¿½
 			unsigned int cur=_ftelli64(g_fin);
 			for(int i = 0; i < sample_num_in_cur_chunk_; i++)
 			{
@@ -439,7 +439,7 @@ unsigned int _stdcall  VideoThread(void* lParam)
 // #ifdef _WIN32
 // 				DWORD dwStart = ::GetTickCount();
 // #endif
-				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//»ñÈ¡µ±Ç°sampleµÄ´óÐ¡
+				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//ï¿½ï¿½È¡ï¿½ï¿½Ç°sampleï¿½Ä´ï¿½Ð¡
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
 				//double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
 				//uint32_t uSampleTime = dbSampleTime*1000000;
@@ -453,7 +453,7 @@ unsigned int _stdcall  VideoThread(void* lParam)
 				unsigned char *ptr=new unsigned char [nBufLen];
 				fread(ptr, sample_size, 1, g_fin);
 
-				//Ð´Ò»Ö¡Êý¾Ý --- ¿ÉÒÔÖ±½Ó½øÐÐÍøÂçÍÆËÍ
+				//Ð´Ò»Ö¡ï¿½ï¿½ï¿½ï¿½ --- ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				//fwrite(ptr, sample_size, 1, fout);
 				EASY_AV_Frame	avFrame;
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
@@ -534,9 +534,9 @@ unsigned int _stdcall  AudioThread(void* lParam)
 			//copy_sample_data(g_fin, chunk_index, name,nID,root,nSampleId);
 			_fseeki64(g_finA, g_root.co[nTrackId].chunk_offset_from_file_begin[chunk_index], SEEK_SET);
 
-			//»ñÈ¡µ±Ç°chunkÖÐÓÐ¶àÉÙ¸ösample
-			uint32_t sample_num_in_cur_chunk_ = get_sample_num_in_cur_chunk(g_root.sc[nTrackId], chunk_index+1);  //@a mark»ñÈ¡chunkÖÐsampleµÄÊýÄ¿
-			uint32_t sample_index_ =  get_sample_index(g_root.sc[nTrackId], chunk_index+1);//chunkÖÐµÚÒ»¸ösampleµÄÐòºÅ
+			//ï¿½ï¿½È¡ï¿½ï¿½Ç°chunkï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ù¸ï¿½sample
+			uint32_t sample_num_in_cur_chunk_ = get_sample_num_in_cur_chunk(g_root.sc[nTrackId], chunk_index+1);  //@a markï¿½ï¿½È¡chunkï¿½ï¿½sampleï¿½ï¿½ï¿½ï¿½Ä¿
+			uint32_t sample_index_ =  get_sample_index(g_root.sc[nTrackId], chunk_index+1);//chunkï¿½Ðµï¿½Ò»ï¿½ï¿½sampleï¿½ï¿½ï¿½ï¿½ï¿½
 			unsigned int cur=_ftelli64(g_finA);
 			for(int i = 0; i < sample_num_in_cur_chunk_; i++)
 			{
@@ -548,7 +548,7 @@ unsigned int _stdcall  AudioThread(void* lParam)
 // #ifdef _WIN32
 // 			DWORD dwStart = ::GetTickCount();
 // #endif
-				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//»ñÈ¡µ±Ç°sampleµÄ´óÐ¡
+				uint32_t sample_size = get_sample_size(g_root.sz[nTrackId], sample_index_+i);//ï¿½ï¿½È¡ï¿½ï¿½Ç°sampleï¿½Ä´ï¿½Ð¡
 				uint32_t sample_time = get_sample_time(g_root.ts[nTrackId], nSampleId );
 				//double dbSampleTime = (double)sample_time/g_root.trk[nTrackId].mdia.mdhd.timescale ;
 				//uint32_t uSampleTime = dbSampleTime*1000000;
@@ -561,7 +561,7 @@ unsigned int _stdcall  AudioThread(void* lParam)
 				unsigned char *ptr=new unsigned char [sample_size];
 				fread(ptr, sample_size, 1, g_finA);
 
-				//Ð´Ò»Ö¡Êý¾Ý --- ¿ÉÒÔÖ±½Ó½øÐÐÍøÂçÍÆËÍ
+				//Ð´Ò»Ö¡ï¿½ï¿½ï¿½ï¿½ --- ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				//fwrite(ptr, sample_size, 1, fout);
 				EASY_AV_Frame	avFrame;
 				memset(&avFrame, 0x00, sizeof(EASY_AV_Frame));
